@@ -5,15 +5,15 @@
  * Link:		http://creativecommons.org/licenses/by-nc-sa/3.0/
  * -----------------------------------------------------------------------
  * Began:       2009
- * Date:        $Date:  $
+ * Date:        $Date$
  * -----------------------------------------------------------------------
- * @author      $Author: hoofy_leon $
+ * @author      $Author$
  * @copyright   2006-2009 Corgan - Stefan Knaak | Wallenium & the EQdkp-Plus Developer Team
  * @link        http://eqdkp-plus.com
  * @package     eqdkp-plus
- * @version     $Rev:  $
+ * @version     $Rev$
  *
- * $Id: $
+ * $Id$
  */
 
 if ( !defined('EQDKP_INC') ){
