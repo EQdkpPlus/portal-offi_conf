@@ -76,24 +76,33 @@ if(!class_exists('AddTopic')) {
     		$days++; //next day morning
     		$add = $secs + 60*$mins + 3600*$hs + 3600*24*$days;
     		$expire = time() + $add;
+    		$name = $in->get('t_name', '');
+    		$name = ($name == '') ? $plang['oc_no_name'] : $name;
+    		$desc = $in->get('t_desc', '');
+    		$desc = ($desc == '') ? $plang['oc_no_desc'] : $desc;
+    		$posi = $in->get('t_posi', 0);
+    		$posi = ($posi == 0) ? 9 : $posi;
+    		$time = $in->get('t_time', 0);
+    		$time = ($time == 0) ? 15 : $time;
 
     		$sql = "INSERT INTO __module_offi_conf
     				 (topic_name, topic_desc, topic_position, topic_time, topic_expires, topic_creator)
     				VALUES
-    				 ('".$in->get('t_name', $plang['oc_no_name'])."', '".$in->get('t_desc', $plang['oc_no_desc'])."', '".$in->get('t_posi', 9)."', '".$in->get('t_time', 15)."', '".$expire."', '".$user->data['user_id']."');";
+    				 ('".$name."', '".$desc."', '".$posi."', '".$time."', '".$expire."', '".$user->data['user_id']."');";
     	}
     	$this->do_sql($sql, 'save');
     }
 
     private function delete()
     {
-    	$sql = "DELETE FROM __module_offi_conf WHERE topic_id = '".$this->id-"';";
+    	$sql = "DELETE FROM __module_offi_conf WHERE (topic_id = '".$this->id."' OR topic_expires < '".time()."');";
     	$this->do_sql($sql, 'delete');
     }
 
     private function do_sql($sql, $type)
     {
     	global $db, $plang, $user, $eqdkp, $tpl, $pdc;
+        echo $sql;
     	if($db->query($sql)) {
             System_Message('', $plang['oc_'.$type.'_success'], 'green');
             $pdc->del_suffix('officonf');
