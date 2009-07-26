@@ -23,7 +23,7 @@ if ( !defined('EQDKP_INC') ){
 $portal_module['offi_conf'] = array(
 			'name'           => 'Officer Conference',
 			'path'           => 'offi_conf',
-			'version'        => '1.0.0',
+			'version'        => '1.1.0',
 			'author'         => 'Hoofy',
 			'contact'        => 'http://www.eqdkp-plus.com',
 			'description'    => 'Admins can post topics for officer conference.',
@@ -144,7 +144,7 @@ if(!function_exists('offi_conf_module'))
 			$stime = $time + $secs - 60*$total;
 			$etime = $time + $secs;
 		}
-	
+
 		$offi_conf .= "<tr><th colspan='2'>".$plang['oc_next_oc']."</th></tr>";
 		$offi_conf .= "<tr class='".$eqdkp->switch_row_class()."'><td colspan='2'>".date('d.m.y H:i:s', $stime)." - ".date('H:i:s', $etime)."</td></tr>";
 		$pdc->put('portal.modul.officonf', $offi_conf);

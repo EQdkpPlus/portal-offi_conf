@@ -102,7 +102,7 @@ if(!class_exists('AddTopic')) {
     private function do_sql($sql, $type)
     {
     	global $db, $plang, $user, $eqdkp, $tpl, $pdc;
-        echo $sql;
+    	
     	if($db->query($sql)) {
             System_Message('', $plang['oc_'.$type.'_success'], 'green');
             $pdc->del_suffix('officonf');
