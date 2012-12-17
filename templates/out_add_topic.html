@@ -1,0 +1,26 @@
+<form action='{ACTION}' method='post'>
+<table width="100%" cellpadding="1" cellspacing="1" class="borderless">
+  <tr>
+  	<th colspan="2">{L_ADD_TOPIC}</th>
+  </tr>
+  <tr>
+  	<td width="50%" class="row1">{L_TOPIC_NAME}: <input type="text" name="t_name" value="{TOPIC_NAME}" class="maininput" size="30" /></td>
+  	<td rowspan="3" width="50%" class="row2">{L_TOPIC_DESC}: <br /> <textarea name="t_desc" rows="4" cols="45">{TOPIC_DESC}</textarea></td>
+  </tr>
+  <tr class="row2">
+  	<td>{L_TOPIC_TIME}: <input type="text" name="t_time" value="{TOPIC_TIME}" class="maininput" size="4" maxlength="3" /></td>
+  </tr>
+  <tr class="row1">
+  	<td>{L_TOPIC_POSI}: <input type="text" name="t_posi" value="{TOPIC_POSI}" class="maininput" size="3" maxlength="2" /></td>
+  </tr>
+  <tr>
+  	<th colspan="2">
+  		<input type="submit" name="save" value="{L_SAVE}" class="mainoption" />
+  		<!-- IF DELETE -->
+  			<input type="submit" name="delete" value="{L_DELETE}" class="mainoption" />
+  			<input type="hidden" name="id" value="{TOPIC_ID}" />
+  		<!-- ENDIF -->
+  	</th>
+  </tr>
+</table>
+</form>
