@@ -29,7 +29,7 @@ class offi_conf_portal extends portal_generic {
 	protected $path		= 'offi_conf';
 	protected $data		= array(
 		'name'			=> 'Officer-Conference',
-		'version'		=> '2.1.0',
+		'version'		=> '2.1.1',
 		'author'		=> 'hoofy',
 		'contact'		=> EQDKP_PROJECT_URL,
 		'description'	=> 'Admins can post topics for officer conference.'
@@ -123,7 +123,7 @@ class offi_conf_portal extends portal_generic {
 	
 	private $max_days = array(0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
 	
-	public function get_settings($state) {
+	public function get_settings() {
 		$type = $this->config->get('pk_oc_type');
 		if(!$type) $type=1;
 		$settings = $this->settings;
@@ -213,6 +213,14 @@ class offi_conf_portal extends portal_generic {
 		$N += 7*($this->config->get('pk_oc_period')-1);
 		list($day,$mon,$yea) = explode('.', $this->time->date('d.m.Y', $next));
 		$day += $N;
+		if($day > $this->max_days[(int)$mon]) {
+			$day -= $this->max_days[(int)$mon];
+			$mon++;
+			if($mon > 12) {
+				$mon = 1;
+				$yea++;
+			}
+		}
 		return $this->time->mktime(0,0,0,$mon,$day,$yea);
 	}
 	
