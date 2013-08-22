@@ -123,7 +123,7 @@ class offi_conf_portal extends portal_generic {
 	
 	private $max_days = array(0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
 	
-	public function get_settings() {
+	public function get_settings($state) {
 		$type = $this->config->get('pk_oc_type');
 		if(!$type) $type=1;
 		$settings = $this->settings;
