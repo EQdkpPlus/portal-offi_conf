@@ -143,7 +143,7 @@ class offi_conf_portal extends portal_generic {
 			return '';
 		}
 		$out = '';
-		$this->jquery->Dialog('OpenTopicWindow', $this->user->lang('oc_upd_topic'), array('url' => $this->root_path."portal/offi_conf/add_topic.php".$this->SID."&id='+topic_id+'", 'width'=>'640', 'height'=>'520', 'withid' => 'topic_id', 'onclose' => $this->env->phpself.$this->env->request_query));
+		$this->jquery->Dialog('OpenTopicWindow', $this->user->lang('oc_upd_topic'), array('url' => $this->server_path."portal/offi_conf/add_topic.php".$this->SID."&id='+topic_id+'", 'width'=>'640', 'height'=>'520', 'withid' => 'topic_id', 'onclose' => $this->env->phpself.$this->env->request_query));
 		$out .= "<table width='100%' cellpadding='2' cellspacing='1' class='colorswitch'><tr><th colspan='2'>".$this->user->lang('oc_next_topics')."</th></tr>";
 		$offi_conf = $this->pdc->get('portal.modul.officonf.out');
 		$this->jquery->qtip('.oc_desc', 'return $(".oc_desc_c", this).html();', array('contfunc' => true));
@@ -186,7 +186,7 @@ class offi_conf_portal extends portal_generic {
 			$offi_conf .= "<tr><td colspan='2'>".$this->time->user_date($stime, true).(($etime != $stime) ? " - ".$this->time->user_date($etime, false, true) : '')."</td></tr>";
 			$this->pdc->put('portal.modul.officonf.out', $offi_conf);
 		}
-		$out .= str_replace('{ROOT_PATH}', $this->root_path, $offi_conf);
+		$out .= str_replace('{ROOT_PATH}', $this->server_path, $offi_conf);
 		$out .= "<tr><th colspan='2'><input type='button' name='addtopic' onclick=\"javascript:OpenTopicWindow(0)\" class='mainoption' value='".$this->user->lang('oc_add_topic')."' style=\"cursor:pointer\" /></th></tr></table>";
 		return $out;
 	}
