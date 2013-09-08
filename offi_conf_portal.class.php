@@ -22,7 +22,7 @@ if ( !defined('EQDKP_INC') ){
 
 class offi_conf_portal extends portal_generic {
 	public static function __shortcuts() {
-		$shortcuts = array('db', 'core', 'user', 'pdh', 'pdc', 'jquery', 'html', 'time', 'config', 'env' => 'environment');
+		$shortcuts = array('db', 'core', 'user', 'pdh', 'pdc', 'jquery', 'html', 'time', 'config', 'env' => 'environment', 'db2');
 		return array_merge(parent::$shortcuts, $shortcuts);
 	}
 
@@ -147,22 +147,24 @@ class offi_conf_portal extends portal_generic {
 		$out .= "<table width='100%' cellpadding='2' cellspacing='1' class='colorswitch'><tr><th colspan='2'>".$this->user->lang('oc_next_topics')."</th></tr>";
 		$offi_conf = $this->pdc->get('portal.modul.officonf.out');
 		$this->jquery->qtip('.oc_desc', 'return $(".oc_desc_c", this).html();', array('contfunc' => true));
-		if(!$offi_conf) {
+		if($offi_conf == null) {
 			$offi_conf = '';
-			$sql = "SELECT topic_id, topic_name, topic_time, topic_desc, topic_creator FROM __module_offi_conf WHERE topic_expires > '".$this->db->escape($this->time->time)."' ORDER BY topic_position ASC;";
-			$result = $this->db->query($sql);
+			$objResult = $this->db2->prepare("SELECT topic_id, topic_name, topic_time, topic_desc, topic_creator FROM __module_offi_conf WHERE topic_expires > ? ORDER BY topic_position ASC;")->execute($this->time->time);
 			$i = 1;
 			$total = 0;
-			while ( $row = $this->db->fetch_record($result) ) {
-				$offi_conf .= "<tr><td>".$i.". ".$row['topic_name']." ";
-				$tooltip = $row['topic_desc']."<br />".$this->user->lang('oc_creator')." ".$this->pdh->get('user', 'name', array($row['topic_creator']));
-				$offi_conf .= "<span class='oc_desc'><img src='{ROOT_PATH}images/global/info.png' border='0' alt='desc' /><span class='oc_desc_c' style='display:none;'>".$tooltip."</span></span>";
-				$offi_conf .= " (".$row['topic_time'].$this->user->lang('oc_min').")";
-				$offi_conf .= "</td><td><img onclick=\"javascript:OpenTopicWindow(".$row['topic_id'].")\" src='{ROOT_PATH}images/admin/manage_settings.png' style=\"cursor:pointer\" alt='e' />";
-				$offi_conf .= "</td></tr>";
-				$total += $row['topic_time'];
-				$i++;
-			}			
+			if ($objResult){
+				while ( $row = $objResult->fetchAssoc() ) {
+					$offi_conf .= "<tr><td>".$i.". ".$row['topic_name']." ";
+					$tooltip = $row['topic_desc']."<br />".$this->user->lang('oc_creator')." ".$this->pdh->get('user', 'name', array($row['topic_creator']));
+					$offi_conf .= "<span class='oc_desc'><img src='{ROOT_PATH}images/global/info.png' border='0' alt='desc' /><span class='oc_desc_c' style='display:none;'>".$tooltip."</span></span>";
+					$offi_conf .= " (".$row['topic_time'].$this->user->lang('oc_min').")";
+					$offi_conf .= "</td><td><img onclick=\"javascript:OpenTopicWindow(".$row['topic_id'].")\" src='{ROOT_PATH}images/admin/manage_settings.png' style=\"cursor:pointer\" alt='e' />";
+					$offi_conf .= "</td></tr>";
+					$total += $row['topic_time'];
+					$i++;
+				}			
+			}
+	
 			//calc time
 			list($hour,$min) = explode(':', $this->config->get('pk_oc_time'));
 			$secs = 3600*$hour + 60*$min;

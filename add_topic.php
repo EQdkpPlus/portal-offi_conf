@@ -24,7 +24,7 @@ include_once($eqdkp_root_path.'common.php');
 
 class addtopic extends page_generic {
 	public static function __shortcuts() {
-		$shortcuts = array('user','tpl', 'in', 'db', 'core', 'time', 'pdc', 'config', 'portal');
+		$shortcuts = array('user','tpl', 'in', 'db', 'core', 'time', 'pdc', 'config', 'portal', 'db2');
 		return array_merge(parent::$shortcuts, $shortcuts);
 	}
 
@@ -67,17 +67,17 @@ class addtopic extends page_generic {
 			'topic_expires' => $this->expires()
 		);
 		if($this->url_id) {
-			$sql = "UPDATE __module_offi_conf SET :params WHERE topic_id = ?;";
+			$resQuery = $this->db2->prepare("UPDATE __module_offi_conf :p WHERE topic_id=?")->set($params)->execute($this->url_id);
 		} else {
-			$sql = "INSERT INTO __module_offi_conf :params;";
 			$params['topic_creator'] = $this->user->id;
+			$resQuery = $this->db2->prepare("INSERT INTO __module_offi_conf :p")->set($params)->execute();		
 		}
-		$this->finish($this->db->query($sql, $params, $this->url_id), 'save');
+		$this->finish($resQuery, 'save');
 	}
 
 	public function delete() {
-		$sql = "DELETE FROM __module_offi_conf WHERE (topic_id = '".$this->db->escape($this->url_id)."' OR topic_expires < '".$this->db->escape($this->time->time)."');";
-		$this->finish($this->db->query($sql), 'delete');
+		$resQuery = $this->db2->prepare("DELETE FROM __module_offi_conf WHERE (topic_id=? OR topic_expires < ? )")->execute($this->url_id, $this->time->time);
+		$this->finish($resQuery, 'delete');
 	}
 
 	public function finish($boolsql, $type) {
@@ -100,18 +100,20 @@ class addtopic extends page_generic {
 	public function display() {
 		$data = array();
 		if($this->url_id != 0) {
-			$sql = "SELECT topic_name, topic_desc, topic_time, topic_position FROM __module_offi_conf WHERE topic_id = '".$this->db->escape($this->url_id)."';";
-			$result = $this->db->query($sql);
-			$data = $this->db->fetch_row($result);
-			$this->db->free_result($result);
-			$this->tpl->assign_vars(array(
-				'TOPIC_NAME'	=> $data['topic_name'],
-				'TOPIC_TIME'	=> $data['topic_time'],
-				'TOPIC_POSI'	=> $data['topic_position'],
-				'TOPIC_DESC'	=> $data['topic_desc'],
-				'TOPIC_ID'		=> $this->url_id,
-				'DELETE'		=> true
-			));
+			$objQuery = $this->db2->prepare("SELECT topic_name, topic_desc, topic_time, topic_position FROM __module_offi_conf WHERE topic_id = ?")->execute($this->url_id);
+			if ($objQuery){
+				$data = $objQuery->fetchAssoc();
+				if ($data->numRows){				
+					$this->tpl->assign_vars(array(
+						'TOPIC_NAME'	=> $data['topic_name'],
+						'TOPIC_TIME'	=> $data['topic_time'],
+						'TOPIC_POSI'	=> $data['topic_position'],
+						'TOPIC_DESC'	=> $data['topic_desc'],
+						'TOPIC_ID'		=> $this->url_id,
+						'DELETE'		=> true
+					));
+				}
+			}	
 		}
 		$this->core->set_vars(array(
 			'page_title'		=> sprintf($this->user->lang('title_prefix'), $this->config->get('guildtag'), $this->config->get('dkp_name')).': '.$this->user->lang('user_list'),
