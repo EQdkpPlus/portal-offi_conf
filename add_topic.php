@@ -103,7 +103,7 @@ class addtopic extends page_generic {
 			$objQuery = $this->db2->prepare("SELECT topic_name, topic_desc, topic_time, topic_position FROM __module_offi_conf WHERE topic_id = ?")->execute($this->url_id);
 			if ($objQuery){
 				$data = $objQuery->fetchAssoc();
-				if ($data->numRows){				
+				if ($objQuery->numRows){				
 					$this->tpl->assign_vars(array(
 						'TOPIC_NAME'	=> $data['topic_name'],
 						'TOPIC_TIME'	=> $data['topic_time'],
