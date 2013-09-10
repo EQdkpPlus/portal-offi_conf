@@ -24,7 +24,7 @@ include_once($eqdkp_root_path.'common.php');
 
 class addtopic extends page_generic {
 	public static function __shortcuts() {
-		$shortcuts = array('user','tpl', 'in', 'db', 'core', 'time', 'pdc', 'config', 'portal', 'db2');
+		$shortcuts = array('user','tpl', 'in', 'db', 'core', 'time', 'pdc', 'config', 'portal', 'db');
 		return array_merge(parent::$shortcuts, $shortcuts);
 	}
 
@@ -67,16 +67,16 @@ class addtopic extends page_generic {
 			'topic_expires' => $this->expires()
 		);
 		if($this->url_id) {
-			$resQuery = $this->db2->prepare("UPDATE __module_offi_conf :p WHERE topic_id=?")->set($params)->execute($this->url_id);
+			$resQuery = $this->db->prepare("UPDATE __module_offi_conf :p WHERE topic_id=?")->set($params)->execute($this->url_id);
 		} else {
 			$params['topic_creator'] = $this->user->id;
-			$resQuery = $this->db2->prepare("INSERT INTO __module_offi_conf :p")->set($params)->execute();		
+			$resQuery = $this->db->prepare("INSERT INTO __module_offi_conf :p")->set($params)->execute();		
 		}
 		$this->finish($resQuery, 'save');
 	}
 
 	public function delete() {
-		$resQuery = $this->db2->prepare("DELETE FROM __module_offi_conf WHERE (topic_id=? OR topic_expires < ? )")->execute($this->url_id, $this->time->time);
+		$resQuery = $this->db->prepare("DELETE FROM __module_offi_conf WHERE (topic_id=? OR topic_expires < ? )")->execute($this->url_id, $this->time->time);
 		$this->finish($resQuery, 'delete');
 	}
 
@@ -100,7 +100,7 @@ class addtopic extends page_generic {
 	public function display() {
 		$data = array();
 		if($this->url_id != 0) {
-			$objQuery = $this->db2->prepare("SELECT topic_name, topic_desc, topic_time, topic_position FROM __module_offi_conf WHERE topic_id = ?")->execute($this->url_id);
+			$objQuery = $this->db->prepare("SELECT topic_name, topic_desc, topic_time, topic_position FROM __module_offi_conf WHERE topic_id = ?")->execute($this->url_id);
 			if ($objQuery){
 				$data = $objQuery->fetchAssoc();
 				if ($objQuery->numRows){				

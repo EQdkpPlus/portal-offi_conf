@@ -22,7 +22,7 @@ if ( !defined('EQDKP_INC') ){
 
 class offi_conf_portal extends portal_generic {
 	public static function __shortcuts() {
-		$shortcuts = array('db', 'core', 'user', 'pdh', 'pdc', 'jquery', 'html', 'time', 'config', 'env' => 'environment', 'db2');
+		$shortcuts = array('db', 'core', 'user', 'pdh', 'pdc', 'jquery', 'html', 'time', 'config', 'env' => 'environment', 'db');
 		return array_merge(parent::$shortcuts, $shortcuts);
 	}
 
@@ -149,7 +149,7 @@ class offi_conf_portal extends portal_generic {
 		$this->jquery->qtip('.oc_desc', 'return $(".oc_desc_c", this).html();', array('contfunc' => true));
 		if($offi_conf == null) {
 			$offi_conf = '';
-			$objResult = $this->db2->prepare("SELECT topic_id, topic_name, topic_time, topic_desc, topic_creator FROM __module_offi_conf WHERE topic_expires > ? ORDER BY topic_position ASC;")->execute($this->time->time);
+			$objResult = $this->db->prepare("SELECT topic_id, topic_name, topic_time, topic_desc, topic_creator FROM __module_offi_conf WHERE topic_expires > ? ORDER BY topic_position ASC;")->execute($this->time->time);
 			$i = 1;
 			$total = 0;
 			if ($objResult){
