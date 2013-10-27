@@ -156,9 +156,9 @@ class offi_conf_portal extends portal_generic {
 				while ( $row = $objResult->fetchAssoc() ) {
 					$offi_conf .= "<tr><td>".$i.". ".$row['topic_name']." ";
 					$tooltip = $row['topic_desc']."<br />".$this->user->lang('oc_creator')." ".$this->pdh->get('user', 'name', array($row['topic_creator']));
-					$offi_conf .= "<span class='oc_desc'><i class='icon-info-sign icon-large'></i><span class='oc_desc_c' style='display:none;'>".$tooltip."</span></span>";
+					$offi_conf .= "<span class='oc_desc'><i class='fa fa-info-circle fa-lg'></i><span class='oc_desc_c' style='display:none;'>".$tooltip."</span></span>";
 					$offi_conf .= " (".$row['topic_time'].$this->user->lang('oc_min').")";
-					$offi_conf .= "</td><td><i class='icon-wrench icon-large hand' onclick=\"javascript:OpenTopicWindow(".$row['topic_id'].")\"></i>";
+					$offi_conf .= "</td><td><i class='fa fa-wrench fa-lg hand' onclick=\"javascript:OpenTopicWindow(".$row['topic_id'].")\"></i>";
 					$offi_conf .= "</td></tr>";
 					$total += $row['topic_time'];
 					$i++;
