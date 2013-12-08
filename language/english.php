@@ -26,14 +26,14 @@ $lang = array(
 	'offi_conf_desc'		=> 'Admins can post topics for officer conference.',
 
 	//settings
-	'pk_oc_day'				=> 'Day of Officer Conference',
-	'pk_oc_end_time'		=> 'wanted end of officer conference (HH:MM)',
-	'pk_oc_start_time'		=> 'wanted begin of officer conference (HH:MM)',
-	'pk_oc_time_type'		=> 'Define start or end of officer conference?',
-	'pk_oc_date'			=> 'Date of the next officer meeting',
-	'pk_oc_period2'			=> 'Officer meeting every x weeks',
-	'pk_oc_period3'			=> 'Officer meeting every x weekday of the month',
-	'pk_oc_type'			=> 'Repeat-type',
+	'oc_f_day'				=> 'Day of Officer Conference',
+	'oc_f_end_time'			=> 'wanted end of officer conference (HH:MM)',
+	'oc_f_start_time'		=> 'wanted begin of officer conference (HH:MM)',
+	'oc_f_time_type'		=> 'Define start or end of officer conference?',
+	'oc_f_date'				=> 'Date of the next officer meeting',
+	'oc_f_period2'			=> 'Officer meeting every x weeks',
+	'oc_f_period3'			=> 'Officer meeting every x weekday of the month',
+	'oc_f_type'				=> 'Repeat-type',
 	'oc_weekday'			=> 'on a certain weekday',
 	'oc_xmonthday'			=> 'on the x. wekday of the month',
 	'oc_manual'				=> 'manual date entry',
@@ -44,7 +44,8 @@ $lang = array(
 	'oc_friday'				=> 'Friday',
 	'oc_saturday'			=> 'Saturday',
 	'oc_sunday'				=> 'Sunday',
-
+	
+	//add topic
 	'oc_add_topic'			=> 'Add Topic',
 	'oc_upd_topic'			=> 'Edit Topic',
 	'oc_next_topics'		=> 'Next Topics',

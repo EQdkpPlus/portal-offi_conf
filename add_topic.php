@@ -23,19 +23,16 @@ $eqdkp_root_path = './../../';
 include_once($eqdkp_root_path.'common.php');
 
 class addtopic extends page_generic {
-	public static function __shortcuts() {
-		$shortcuts = array('user','tpl', 'in', 'db', 'core', 'time', 'pdc', 'config', 'portal', 'db');
-		return array_merge(parent::$shortcuts, $shortcuts);
-	}
-
+	private $module_id = 0;
 	public function __construct() {
 		$this->user->check_auth('a_');
 		parent::__construct(false, false, array(), null, '', 'id');
+		$this->module_id = $this->in->get('pmod_id', 0);
 		$this->process();
 	}
 	
 	private function expires() {
-		$oc_date = $this->portal->get_module('offi_conf')->calc_date();
+		$oc_date = $this->portal->get_module($this->module_id)->calc_date();
 		list($h, $min, $s) = explode(':', $this->time->date('H:i:s', $oc_date));
 		// find 5 o'clock in the morning
 		$secs = $mins = $hs = 0;
@@ -83,7 +80,7 @@ class addtopic extends page_generic {
 	public function finish($boolsql, $type) {
 		if($boolsql) {
 			$this->core->message('', $this->user->lang('oc_'.$type.'_success'), 'green', true, false);
-			$this->pdc->del_suffix('officonf');
+			$this->pdc->del('portal.module.officonf.out');
 		} else {
 			$this->core->message('', $this->user->lang('oc_'.$type.'_no_success'), 'red', true, false);
 		}
@@ -115,6 +112,9 @@ class addtopic extends page_generic {
 				}
 			}	
 		}
+		$this->tpl->assign_vars(array(
+			'ACTION'	=> $this->env->phpself.$this->SID.$this->simple_head_url.$this->url_id_ext.'&amp;pmod_id='.$this->module_id,
+		));
 		$this->core->set_vars(array(
 			'page_title'		=> sprintf($this->user->lang('title_prefix'), $this->config->get('guildtag'), $this->config->get('dkp_name')).': '.$this->user->lang('user_list'),
 			'template_path'		=> 'portal/offi_conf/templates/',
@@ -124,6 +124,5 @@ class addtopic extends page_generic {
 		);
 	}
 }
-if(version_compare(PHP_VERSION, '5.3.0', '<')) registry::add_const('short_addtopic', addtopic::__shortcuts());
 registry::register('addtopic');
 ?>
