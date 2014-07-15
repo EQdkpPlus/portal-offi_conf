@@ -29,7 +29,8 @@ class offi_conf_portal extends portal_generic {
 		'author'		=> 'hoofy',
 		'contact'		=> EQDKP_PROJECT_URL,
 		'description'	=> 'Admins can post topics for officer conference.',
-		'lang_prefix'	=> 'oc_'
+		'lang_prefix'	=> 'oc_',
+		'icon'			=> 'fa-star'
 	);
 	protected static $positions	= array('left1', 'left2', 'right');
 	protected static $install	= array(
