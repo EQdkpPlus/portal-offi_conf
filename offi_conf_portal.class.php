@@ -52,6 +52,9 @@ class offi_conf_portal extends portal_generic {
 			`topic_position` SMALLINT(2) DEFAULT NULL
 		) DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 	");
+	
+	protected static $apiLevel = 20;
+	
 	private $max_days = array(0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
 	
 	protected $settings	= array(
