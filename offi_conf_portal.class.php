@@ -134,6 +134,7 @@ class offi_conf_portal extends portal_generic {
 		$out = '';
 		$this->jquery->Dialog('OpenTopicWindow', $this->user->lang('oc_upd_topic'), array('url' => $this->server_path."portal/offi_conf/add_topic.php".$this->SID."&pmod_id=".$this->id."&id='+topic_id+'", 'width'=>'640', 'height'=>'520', 'withid' => 'topic_id', 'onclose' => $this->env->phpself.$this->env->request_query));
 		$out .= "<table width='100%' cellpadding='2' cellspacing='1' class='colorswitch'><tr><th colspan='2'>".$this->user->lang('oc_next_topics')."</th></tr>";
+		
 		$offi_conf = $this->pdc->get('portal.module.officonf.out');
 		$this->jquery->qtip('.oc_desc', 'return $(".oc_desc_c", this).html();', array('contfunc' => true));
 		if($offi_conf == null) {
@@ -164,8 +165,12 @@ class offi_conf_portal extends portal_generic {
 				$stime = $secs - 60*$total;
 				$etime = $secs;
 			}
+
 			//dont show something from the past
 			$oc_date = $this->pdc->get('portal.module.officonf.date');
+			$this->pdc->put('portal.module.officonf.date', 0, 7257600);
+			$this->calc_date();
+			
 			if(($oc_date + $etime) < $this->time->time) {
 				$oc_date = $this->calc_date();
 				$this->pdc->put('portal.module.officonf.date', $oc_date, 7257600);
@@ -196,14 +201,23 @@ class offi_conf_portal extends portal_generic {
 	
 	private function calc_date2() {
 		$next = register('pdc')->get('portal.module.officonf.date');
+		if (!$next) $next = $this->time->time;
+		
 		$N = $this->time->date('N', $next);
+		$N_next = $N;
+
 		if($N != $this->config('day')) {
 			$N = $this->config('day') - $N;
 			if($N < 0) $N += 7;
 		}
 		$N += 7*($this->config('period')-1);
+
 		list($day,$mon,$yea) = explode('.', $this->time->date('d.m.Y', $next));
-		$day += $N;
+
+		if ((int)$N !== (int)$N_next) {
+			$day += $N;
+		}
+		
 		if($day > $this->max_days[(int)$mon]) {
 			$day -= $this->max_days[(int)$mon];
 			$mon++;
@@ -212,6 +226,7 @@ class offi_conf_portal extends portal_generic {
 				$yea++;
 			}
 		}
+
 		return $this->time->mktime(0,0,0,$mon,$day,$yea);
 	}
 	
