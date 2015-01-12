@@ -136,7 +136,7 @@ class offi_conf_portal extends portal_generic {
 		}
 		$out = '';
 		$this->jquery->Dialog('OpenTopicWindow', $this->user->lang('oc_upd_topic'), array('url' => $this->server_path."portal/offi_conf/add_topic.php".$this->SID."&pmod_id=".$this->id."&id='+topic_id+'", 'width'=>'640', 'height'=>'520', 'withid' => 'topic_id', 'onclose' => $this->env->phpself.$this->env->request_query));
-		$out .= "<table width='100%' cellpadding='2' cellspacing='1' class='colorswitch'><tr><th colspan='2'>".$this->user->lang('oc_next_topics')."</th></tr>";
+		$out .= "<table class='table fullwidth colorswitch'><tr><th colspan='2'>".$this->user->lang('oc_next_topics')."</th></tr>";
 		
 		$offi_conf = $this->pdc->get('portal.module.officonf.out');
 		$this->jquery->qtip('.oc_desc', 'return $(".oc_desc_c", this).html();', array('contfunc' => true));
