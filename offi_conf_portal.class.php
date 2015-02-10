@@ -28,7 +28,7 @@ class offi_conf_portal extends portal_generic {
 	protected static $path		= 'offi_conf';
 	protected static $data		= array(
 		'name'			=> 'Officer-Conference',
-		'version'		=> '3.0.0',
+		'version'		=> '3.0.1',
 		'author'		=> 'hoofy',
 		'contact'		=> EQDKP_PROJECT_URL,
 		'description'	=> 'Admins can post topics for officer conference.',
